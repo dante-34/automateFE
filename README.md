@@ -18,7 +18,7 @@ Flow:
 ✅ click "View Profile" button >>>
 ✅ click "Connections" link >>> Navigate to contacts page.
 
-✅ collect URL of that user's profile page
+✅ collect URL of that user's profile page \n
 ✅ Iterate on all URLs. For each, Locate element of "Experiene" section
   ✅ Locate user's full name (FN1), keep it.
   ✅ Locate user's title (Title1), keep it.
