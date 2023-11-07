@@ -1,5 +1,4 @@
 package org.example;
-import net.bytebuddy.description.type.TypeList;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.By;
