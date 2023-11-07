@@ -33,7 +33,10 @@ Further subtasks:
 - Extend to include ALL contacts, covering infinite scroll
 - Extract own (name, workplace, city) to be placed at top of JSON
 - clear away more actions from Main into helper method for modularity
-- 
+- There are at least 2 variations with "Experience" item strucutre:
+  + if person holds single role in the company, the bold header contains "TITLE"
+  + if person has/had 2+ roles in same company, the leading bold header will now contain "COMPANY-NAME"
+  + This inconsistency along with flexibility given to users to add or omit whatever they like poses an additional challenge
 Following clicks path, NOT navigating directly to  https://www.linkedin.com/mynetwork/invite-connect/connections/
 
 
