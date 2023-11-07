@@ -8,33 +8,29 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-        // Press Opt+Enter with your caret at the highlighted text to see how
-        // IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
 
-        // Press Ctrl+R or click the green arrow button in the gutter to run the code.
-        for (int i = 1; i <= 5; i++) {
+        String targetJsonPath = "outputLinkedinContacts.txt";
+        String credentialsLinkedinUser = "YOUR-USER-NAME";
+        String credentialsLinkedinPassword = "YOUR-PASSWORD";
 
-            // Press Ctrl+D to start debugging your code. We have set one breakpoint
-            // for you, but you can always add more by pressing Cmd+F8.
-            System.out.println("i = " + i);
-        }
         WebDriver driver = new ChromeDriver();
         System.setProperty("webdriver.chrome.driver", "/usr/local/bin/");
         driver.manage().window().maximize();
         driver.get("https://www.linkedin.com/");
 
         WebElement username=driver.findElement(By.xpath("//*[@id=\"session_key\"]"));
-        username.sendKeys("YOUR-USERNAME-HERE");
+        username.sendKeys(credentialsLinkedinUser);
 
         WebElement password=driver.findElement(By.xpath("//*[@id=\"session_password\"]"));
-        password.sendKeys("YOUR-PASSWORD-HERE");
+        password.sendKeys(credentialsLinkedinPassword);
 
 
         WebElement login=driver.findElement(By.xpath("//*[@id=\"main-content\"]/section[1]/div/div/form/div[2]/button"));
@@ -49,6 +45,11 @@ public class Main {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+// >>> >>> >>>
+// collect here now for self data items
+        String[] selfDataItems = new String[3];
+        selfDataItems = scraperUtils.harvestSelfDetails(driver);
+        System.out.println(" ~~DEBUG~~ \"SELF\" items found. 0=" + selfDataItems[0] + " 1=" + selfDataItems[1] + " 2=" + selfDataItems[2]);
 
         // Locate "Me" and click it to open sub-menu
         WebElement meSubMenu=driver.findElement(By.xpath("//*[@id=\"ember15\"]"));
@@ -124,7 +125,50 @@ public class Main {
         }
             //targetConnectionsLink.click();
 // NEXT
-// Alternative- navigate immediately after login into https://www.linkedin.com/mynetwork/invite-connect/connections/
+
+        List<String> collectedContactsData = scraperUtils.collectProfileURLs(driver);
+        if (collectedContactsData.isEmpty())
+            System.out.println(" !! NOTHING FOUND !! ");
+        else
+            System.out.println(" ~~DEBUG~~ This URL " + collectedContactsData.get(0) + " is 1st out of " + collectedContactsData.size());
+
+
+
+        // TEST : single contact
+        // String[] contactDataItems = new String[3];
+        // contactDataItems = scraperUtils.harvestLatestWorkplace(driver,collectedContactsData.get(17));
+        // 17=dudu 32=Rafi  36=anton 38=Hazak
+
+        // DEBUG
+        // System.out.println(" ~~DEBUG~~ FullName=" + contactDataItems[0] + " Title=" + contactDataItems[1] +" Period=" + contactDataItems[2]);
+        // Alternative- navigate immediately after login into https://www.linkedin.com/mynetwork/invite-connect/connections/
+
+        List<Integer> selectedIndices = Arrays.asList(17, 38, 36); // TEST-TEST-TEST : when wishing to visit a handful of contacts and not all of them
+        // Iterate on all available URLs, collect results into a newly defined List<String[]>
+        List<String[]> collectedNamesAndTitles = new ArrayList<>();
+
+        // go through ALL URLs
+        /*
+        for (String url : collectedContactsData) {
+            String[] contactDataItems = scraperUtils.harvestLatestWorkplace(driver, url);
+            collectedNamesAndTitles.add(contactDataItems);
+        }
+        */
+        // TEST-TEST-TEST go through only the index numbers specified in "selectedIndices"
+        for (Integer index : selectedIndices) {
+            if (index >= 0 && index < collectedContactsData.size()) {
+                String url = collectedContactsData.get(index);
+                String[] contactDataItems = scraperUtils.harvestLatestWorkplace(driver, url);
+                collectedNamesAndTitles.add(contactDataItems);
+            }
+        }
+
+
+
+        String thisIsMyJSON = scraperUtils.convertDataToJson(collectedNamesAndTitles,selfDataItems);
+        System.out.println(" ~~DEBUG~~ JSON-JSON-JSON = " + thisIsMyJSON);
+
+        scraperUtils.writeJsonToFile(thisIsMyJSON,targetJsonPath);
 
         // Identify elements (connections) in list based on class for profile image.
         // "ember-view mn-connection-card__picture"
@@ -133,7 +177,7 @@ public class Main {
         // //*[@id="ember770"]/div[2]/div[1]/ul/li[1]
         // //*[@id="ember770"]/div[2]/div[1]/ul/li[2]
         //*[@id="ember770"]/div[2]/div[1]/ul/li[40]
-        driver.quit();
+      //  driver.quit();
 /*        try {
             driver.wait(5000);
             driver.close();
