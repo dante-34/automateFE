@@ -47,7 +47,7 @@ public class Main {
         }
 // >>> >>> >>>
 // collect here now for self data items
-        String[] selfDataItems = new String[3];
+        String[] selfDataItems;
         selfDataItems = scraperUtils.harvestSelfDetails(driver);
         System.out.println(" ~~DEBUG~~ \"SELF\" items found. 0=" + selfDataItems[0] + " 1=" + selfDataItems[1] + " 2=" + selfDataItems[2]);
 
