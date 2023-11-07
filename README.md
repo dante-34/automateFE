@@ -7,8 +7,9 @@ IDE in use is IntelliJ Community
 Maven for dependency management
 Selenium webdriver for interacting with pages and components
 
-Provided credentials are not usable as 
 Upon using the provided credentials, there is a verification step via email which cannot be completed.
+When using any credentials too frequently for LinkedIn's taste, the login process is taking user through validation.
+Validation is to be complete manually and a 10-second wait is in place for that purpose.
 
 Flow:
 ✅ Open browser
@@ -24,23 +25,20 @@ Flow:
   ✅ Locate user's title (Title1), keep it.
   ✅ Locate user's period info (TimeFrame1), keep it.
 ✅ Collect list of details [FN1,Title1,TimeFrame1]
-[ ] Build JSON containing details of all contacts
+.
+✅ Build JSON containing details of all contacts
 [ ] Save JSON to file
 
-Navigate to https://www.linkedin.com/mynetwork/invite-connect/connections/
+Further subtasks:
+- Extend to include ALL contacts, covering infinite scroll
+- Extract own (name, workplace, city) to be placed at top of JSON
+- clear away more actions from Main into helper method for modularity
+- 
+Following clicks path, NOT navigating directly to  https://www.linkedin.com/mynetwork/invite-connect/connections/
 
-iterate on each contact- 
-* Browse to profile page
-* Keep FullName = FN1
-* Navigate to element= "Experience"
-  * go to top row, selector= #ember1178 > div.pvs-list__outer-container > ul > li:nth-child(1) > div
-  * title xpath = //*[@id="ember1178"]/div[3]/ul/li[1]/div/div[2]/div[1]/div[1]/div
-    Keep title = Title1
-  * time xpath = //*[@id="ember1178"]/div[3]/ul/li[1]/div/div[2]/div[1]/div[1]/span[2]
-    Keep period = TimeFrame1
-    
+
 if present - click on "show more results" for complete list of contacts
 (until 'show more results' does not re-appear)
 Add protection from duplicate entries, based on similar linkedin's "/in" URL
 
-export all collected [FN1, Title1, TimeFrame1] into the target JSON
+
