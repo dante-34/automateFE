@@ -27,11 +27,12 @@ Flow:
 ✅ Collect list of details [FN1,Title1,TimeFrame1]
 .
 ✅ Build JSON containing details of all contacts
-[ ] Save JSON to file
+✅ Save JSON to file
 
 Further subtasks:
 - Extend to include ALL contacts, covering infinite scroll
 - Extract own (name, workplace, city) to be placed at top of JSON
+      - initially only (self name) implemented
 - clear away more actions from Main into helper method for modularity
 - There are at least 2 variations with "Experience" item strucutre:
   + if person holds single role in the company, the bold header contains "TITLE"
@@ -39,9 +40,10 @@ Further subtasks:
   + This inconsistency along with flexibility given to users to add or omit whatever they like poses an additional challenge
 Following clicks path, NOT navigating directly to  https://www.linkedin.com/mynetwork/invite-connect/connections/
 
-
-if present - click on "show more results" for complete list of contacts
+*** Infinite Scrolling ***
+Go to bottom of page for automatic loading of additional contacts.
+if present - click on "show more results" button, for complete list of contacts
 (until 'show more results' does not re-appear)
-Add protection from duplicate entries, based on similar linkedin's "/in" URL
+((Add protection from duplicate entries, based on similar linkedin's "/in" URL))
 
 
